@@ -4,12 +4,21 @@
 
 一个基于Web的图章文篇游戏交互架构，支持图文展示、剧情分支、音效控制等功能，适用于制作视觉小说、图文类游戏。
 
+## 模板图片预览
+<div align="center">
+  <img src="preview-images/game-ui-1.png" width="600" alt="游戏界面预览">
+</div>
+
+<div align="center">
+  <img src="preview-images/game-ui-2.png" width="600" alt="游戏界面预览">
+</div>
+
 ## 使用说明
 
 ### 一、基础教程（零基础小白快速上手篇）
 1.在config.css中添加首页背景图路径（第16-17行）
 2.在data.js中添加游戏章节剧情配置（可以直接按照模板替换）
-3.在浏览器打开index.html预览游戏
+3.在浏览器打开index.html预览游戏（如果遇到跨域问题可以使用http-server）
 
 ### 二、进阶教程（轻松制作完整H5游戏）
 1.在index.html中修改游戏版本号配置（第18行）
@@ -156,5 +165,5 @@ startGame() - 开始游戏
 如有问题或建议，请联系项目维护者。
 本项目采用 **MIT 许可证** 开源。
 详细内容请查看 [LICENSE](LICENSE) 文件。
-GitHub 仓库：[SealScriptGame_Web](https://github.com/)
+GitHub 仓库：[SealScriptGame-Web](https://github.com/aTRbFAc/SealScriptGame-Web)
 工作室官网：[文幻工作室](https://atrbfac.top)
