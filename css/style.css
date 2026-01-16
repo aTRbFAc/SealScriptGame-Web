@@ -1,0 +1,567 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* 全局字体样式 - 仅在配置启用时应用 */
+body {
+    font-family: var(--font-family-global);
+    overflow: hidden;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+#main-interface {
+    background-image: var(--bg-main-interface-url); /*游戏主界面背景图*/
+    background-size: var(--bg-size-stretch, var(--bg-size-default));
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+/* 主界面头部 */
+.main-interface-header {
+    position: absolute;
+    top: 20px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    z-index: 100;
+}
+
+.version-info {
+    background-color: var(--version-bg-color); /* 半透明深红色背景 */
+    color: var(--primary-light-color);
+    padding: 6px 12px;
+    border-radius: var(--border-radius);
+    font-size: var(--font-size-normal);
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* 开始游戏按钮 */
+.startGameBtn {
+    padding: 15px 30px;
+    background-color: var(--primary-color);
+    color: var(--primary-light-color);
+    border: var(--border-width) solid var(--primary-light-color);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: var(--font-size-xxlarge);
+    font-weight: bold;
+    transition: all var(--transition-duration);
+    text-align: center;
+    box-shadow: var(--shadow-medium);
+    position: relative;
+    top: 25%; /* 向下偏移50像素 */
+}
+
+.startGameBtn:hover {
+    background-color: var(--primary-light-color);
+    color: var(--primary-color);
+    transform: scale(1.05);
+}
+/* 设置界面 */
+#setting-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+.setting-overlay {
+    background: var(--background-color);
+    padding: 30px;
+    border-radius: 8px;
+    width: 400px;
+    max-width: 90%;
+    box-shadow: var(--shadow-large);
+}
+
+.setting-panel h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #333;
+    font-size: var(--font-size-xxlarge);
+    font-family: var(--font-family-global);
+}
+
+.setting-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    justify-content: space-between;
+}
+
+.setting-item label {
+    flex: 1;
+    font-size: var(--font-size-normal);
+    color: #333;
+    margin-right: 15px;
+    font-family: var(--font-family-global);
+}
+
+.setting-item input[type="range"] {
+    flex: 2;
+    height: 5px;
+    border-radius: 5px;
+    outline: none;
+    -webkit-appearance: none;
+    background: #dcdcdc;
+}
+
+.setting-item input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    cursor: pointer;
+}
+
+.setting-item span {
+    flex: 0.5;
+    text-align: right;
+    font-size: var(--font-size-small);
+    color: #666;
+    min-width: 40px;
+    font-family: var(--font-family-global);
+}
+
+.setting-buttons {
+    text-align: center;
+    margin-top: 20px;
+}
+
+#close-setting {
+    width: auto;
+    padding: 8px 20px;
+    font-size: var(--font-size-normal);
+}
+#app-container {
+    background-image: var(--bg-game-content-url); /*游戏内默认背景图*/
+    background-size: var(--bg-size-stretch, var(--bg-size-default));
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.game-main {
+    max-width: 1200px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+}
+
+/* 保持原有的body定义，但确保字体设置符合配置 */
+body {
+    overflow: hidden;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    height: 70px;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: var(--border-width) solid var(--border-color);
+    flex-shrink: 0;
+}
+
+.chapter {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    padding: 6px 22px;
+    border: var(--border-width) solid var(--border-color);
+    border-radius: var(--border-radius);
+    font-size: var(--font-size-xlarge);
+    font-weight: bold;
+    font-family: var(--font-family-global);
+}
+
+.header-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+.header-btn {
+    padding: 6px 18px;
+    border: var(--border-width) solid var(--border-color);
+    background-color: var(--background-color);
+    color: var(--text-color);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: var(--font-size-medium);
+    transition: all var(--transition-duration);
+    font-family: var(--font-family-global);
+}
+
+.header-btn:hover {
+    background-color: var(--border-color);
+    color: var(--primary-light-color);
+}
+
+.game-wrap {
+    flex: 1;
+    overflow: hidden;
+    padding: var(--container-padding);
+}
+
+.game-container {
+    width: 100%;
+    max-width: 1000px;
+    height: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* 自适应图片框 */
+.image-seal {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    border: 8px solid var(--border-color);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    flex-shrink: 0;
+    background-color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.image-seal img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* 自适应文字框 - 应用文字框专用字体 */
+.text-script {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    background-color: var(--background-color);
+    color: var(--text-highlight-color);
+    padding: 15px 25px;
+    border: 4px solid var(--border-color);
+    border-radius: var(--border-radius);
+    font-size: var(--font-size-xlarge);
+    line-height: var(--line-height-text-script);
+    flex: 1;
+    min-height: 200px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-color) var(--background-color);
+    font-family: var(--font-family-text-script);
+}
+
+.text-script::-webkit-scrollbar {
+    width: 10px;
+}
+.text-script::-webkit-scrollbar-thumb {
+    background-color: var(--border-color);
+    border-radius: 5px;
+}
+.text-script::-webkit-scrollbar-track {
+    background-color: var(--background-color);
+}
+
+/* 按钮区域自适应*/
+.button-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px 20px; 
+    border-top: 1px solid #333;
+    width: 100%;
+    flex-shrink: 0;
+    position: relative;
+    box-sizing: border-box;
+    min-height: unset;
+    height: auto;
+}
+
+/* 纵向剧情选择按钮组 */
+.button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    width: 100%;
+}
+
+/* 下一页按钮框 */
+.next-btn-wrap {
+    position: absolute;
+    right: 20px;
+    bottom: 15px;
+    transform: none;
+    z-index: 999;
+}
+
+/* 通用按钮样式 */
+.game-btn {
+    padding: 8px 0;
+    width: var(--btn-width-normal);
+    text-align: center;
+    background-color: var(--primary-color);
+    color: var(--primary-light-color);
+    border: var(--border-width) solid var(--primary-light-color);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 19px;
+    font-weight: bold;
+    transition: all var(--transition-duration);
+    position: relative;
+    font-family: var(--font-family-global);
+}
+
+/* 下一页按钮样式 */
+.nextPageBtn {
+    padding: 8px 0;
+    width: var(--btn-width-next);
+    text-align: center;
+    background-color: var(--primary-color);
+    color: var(--primary-light-color);
+    border: var(--border-width) solid var(--primary-light-color);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 19px;
+    font-weight: bold;
+    transition: all var(--transition-duration);
+    position: relative;
+    font-family: var(--font-family-global);
+}
+
+.game-btn:hover {
+    background-color: var(--primary-light-color);
+    color: var(--primary-color);
+}
+
+/* 游戏结束容器 */
+#end-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.end-content {
+    background: var(--background-color);
+    padding: 40px;
+    border-radius: 8px;
+    text-align: center;
+    max-width: 500px;
+    width: 80%;
+    box-shadow: var(--shadow-large);
+}
+
+.win .end-content {
+    border: 4px solid var(--success-color); /* 胜利时绿色边框 */
+    background: linear-gradient(to bottom, #f0fff0, #e0ffe0);
+}
+
+.lose .end-content {
+    border: 4px solid var(--accent-color); /* 失败时红色边框 */
+    background: linear-gradient(to bottom, #fff0f0, #ffe0e0);
+}
+
+.end-title {
+    font-size: var(--font-size-title);
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333;
+    font-family: var(--font-family-global);
+}
+
+.win .end-title {
+    color: var(--success-color); /* 胜利时绿色标题 */
+}
+
+.lose .end-title {
+    color: var(--accent-color); /* 失败时红色标题 */
+}
+
+.end-message {
+    font-size: var(--font-size-large);
+    margin-bottom: 30px;
+    color: #666;
+    line-height: 1.5;
+    font-family: var(--font-family-global);
+}
+
+.end-buttons {
+    display: flex;
+    flex-direction: column; /* 修改为垂直布局 */
+    align-items: center;
+    gap: 15px; /* 添加间距 */
+}
+
+/* 重新开始按钮 */
+#restartBtn {
+    padding: 10px 25px;
+    background-color: var(--primary-color);
+    color: var(--primary-light-color);
+    border: var(--border-width) solid var(--primary-light-color);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: var(--font-size-medium);
+    font-weight: bold;
+    transition: all var(--transition-duration);
+    font-family: var(--font-family-global);
+}
+
+#restartBtn:hover {
+    background-color: var(--primary-light-color);
+    color: var(--primary-color);
+}
+
+/* 返回主界面按钮 */
+#backToMainBtn {
+    padding: 10px 25px;
+    background-color: var(--primary-color);
+    color: var(--primary-light-color);
+    border: var(--border-width) solid var(--primary-light-color);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: var(--font-size-medium);
+    font-weight: bold;
+    transition: all var(--transition-duration);
+    font-family: var(--font-family-global);
+}
+
+#backToMainBtn:hover {
+    background-color: var(--primary-light-color);
+    color: var(--primary-color);
+}
+
+/* 模态框样式 */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: var(--modal-z-index);
+}
+
+.modal-content {
+    background: var(--background-color);
+    padding: var(--modal-padding);
+    border-radius: var(--border-radius);
+    width: var(--modal-width);
+    max-width: 90%;
+    box-shadow: var(--shadow-large);
+    text-align: center;
+}
+
+.modal-header {
+    margin-bottom: 20px;
+}
+
+.modal-header h3 {
+    font-size: var(--font-size-xxlarge);
+    color: var(--modal-header-color);
+    font-family: var(--font-family-global);
+    margin: 0;
+}
+
+.modal-body {
+    margin-bottom: 25px;
+}
+
+.modal-body p {
+    font-size: var(--font-size-normal);
+    color: var(--modal-body-color);
+    line-height: var(--modal-line-height);
+    font-family: var(--font-family-global);
+    margin: 0;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: center;
+    gap: var(--modal-gap);
+}
+
+/* 移动端适配 */
+@media (max-width: 768px) {
+    .game-main {
+        max-width: 100%;
+    }
+    .game-wrap {
+        padding: 15px;
+    }
+    .image-seal {
+        max-width: 400px;
+    }
+    .text-script {
+        max-width: 400px;
+        font-size: 20px;
+        padding: 20px;
+        font-family: var(--font-family-text-script);
+    }
+    .button-area {
+        padding: 10px 15px;
+    }
+    .next-btn-wrap {
+        position: static;
+        align-self: flex-end;
+        margin-top: 10px;
+    }
+    .game-btn {
+        width: var(--btn-width-normal);
+        font-size: 17px;
+        font-family: var(--font-family-global);
+    }
+    .modal-content {
+        width: 85%;
+        padding: 20px;
+    }
+    .modal-buttons {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .game-btn {
+        width: 100%;
+    }
+}

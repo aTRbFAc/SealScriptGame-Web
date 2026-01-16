@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <title>SealScriptGame Web（图章文篇游戏交互架构）</title>
+    <!-- SealScriptGame Web（图章文篇游戏交互架构）-文幻工作室-->
+    <link rel="stylesheet" href="css/config.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+<!-- 游戏主界面容器 -->
+<div id="main-interface">
+    <div class="main-interface-header">
+        <div class="version-info">SealScriptGame Web-V1.0</div><!-- 这里填写游戏版本号，如果不需要可以直接删掉不写 -->
+        <div class="header-btn" id="settingshez">设置</div>
+    </div>
+    <div class="startGameBtn" id="startGameBtn">开始游戏</div>
+</div>
+
+    <!-- 游戏主容器 -->
+    <div id="app-container">
+        <div class="game-main">
+            <div class="header">
+                <div class="chapter" id="chapterTitle">第-章</div>
+                <div class="header-buttons">
+                    <div class="header-btn" id="settingshez">设置</div>
+                    <div class="header-btn" id="closeBtn">退出</div>
+                </div>
+            </div>
+            <!-- 图片+文字内容区域 -->
+            <div class="game-wrap">
+                <div class="game-container">
+                    <div class="image-seal">
+                        <img id="sceneImage" src="" alt="场景图">
+                    </div>
+                    <div class="text-script" id="scriptContent"></div>
+                </div>
+            </div>
+
+            <!-- 按钮组 -->
+            <div class="button-area">
+                <!-- 纵向剧情选择按钮组 -->
+                <div class="button-group">
+                    <div class="game-btn" id="prevPageBtn">按钮1</div>
+                    <div class="game-btn" id="saveBtn">按钮2</div>
+                </div>
+                <!-- 下一页按钮 -->
+                <div class="next-btn-wrap">
+                    <div class="nextPageBtn" id="nextPageBtn">下一页</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 游戏结束容器 -->
+    <div id="end-container">
+        <div class="end-content" id="endContent">
+            <div class="end-title" id="endTitle">游戏结束</div>
+            <div class="end-message" id="endMessage">这是结局内容。</div>
+            <div class="end-buttons">
+                <div class="game-btn" id="restartBtn">重新开始</div>
+                <div class="game-btn" id="backToMainBtn">返回主界面</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 退出确认模态框 -->
+    <div id="exit-confirm-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>暂时退出</h3>
+            </div>
+            <div class="modal-body">
+                <p>是否暂时退出游戏，回到主界面?<br>(游戏进度已保存)</p>
+            </div>
+            <div class="modal-buttons">
+                <div class="game-btn" id="cancel-exit-btn">取消</div>
+                <div class="game-btn" id="confirm-exit-btn">回到主界面</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 继续游戏确认模态框 -->
+    <div id="continue-game-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>继续游戏？</h3>
+            </div>
+            <div class="modal-body">
+                <p>您当前有正在进行中的游戏，是否继续？</p>
+            </div>
+            <div class="modal-buttons">
+                <div class="game-btn" id="new-game-btn">新游戏</div>
+                <div class="game-btn" id="continue-game-btn">继续游戏</div>
+            </div>
+        </div>
+    </div>
+
+<!-- 设置界面 -->
+<div id="setting-container">
+    <div class="setting-overlay">
+        <div class="setting-panel">
+            <h2>设置</h2>
+            <div class="setting-item">
+                <label for="bgm-volume">背景音乐</label>
+                <input type="range" id="bgm-volume" min="0" max="100" value="100">
+                <span id="bgm-volume-value">100%</span>
+            </div>
+            <div class="setting-item">
+                <label for="se-volume">游戏音效</label>
+                <input type="range" id="se-volume" min="0" max="100" value="100">
+                <span id="se-volume-value">100%</span>
+            </div>
+            <div class="setting-item">
+                <label for="narration-volume">旁白音乐</label>
+                <input type="range" id="narration-volume" min="0" max="100" value="100">
+                <span id="narration-volume-value">100%</span>
+            </div>
+            <div class="setting-buttons">
+                <button id="close-setting" class="game-btn">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 游戏数据 -->
+<script src="data/data.js"></script>
+
+<!-- 核心逻辑 -->
+<script src="js/config.js"></script>
+<script src="js/start-game.js"></script>
+<script src="js/SealScriptGame_core.js"></script>
+<script src="js/game-over.js"></script>
+<script src="js/main.js"></script>
+
+</body>
+
+</html>

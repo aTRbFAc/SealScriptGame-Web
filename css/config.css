@@ -1,0 +1,84 @@
+/* 定义全局自定义字体（无字体时自动使用系统默认）*/
+@font-face {
+    font-family: 'GameGlobalFont';
+    src: /* 以下三种格式任意导入一个即可，其他的可以删掉或注释掉 */
+    url('../fonts/custom-font.woff2') format('woff2'),
+    url('../fonts/custom-font.woff') format('woff'),
+    url('../fonts/custom-font.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* 游戏界面配置文件 */
+:root {
+    /* 背景图片设置 */
+    --bg-main-interface-url: url(../images/image.png);  /* 游戏主界面背景图 */
+    --bg-game-content-url: url(../images/image.png);    /* 游戏内默认背景图路径 */
+    
+    /*
+     * 背景尺寸设置
+     * 默认使用裁剪方案（保留核心视觉，不拉伸，推荐游戏界面使用）
+     * 如果想启用拉伸方案（强制贴合容器但可能变形），请取消下面一行的注释
+     */
+    --bg-size-default: cover;                   /* 裁剪方案 - 默认启用 */
+    /* --bg-size-stretch: 100% 100%; */        /* 拉伸方案 - 如需使用，请删除注释符 */
+    
+    /* 主要颜色设置 */
+    --primary-color: #900;                      /* 主色调- 用于按钮背景、边框等 */
+    --primary-light-color: #fff;                /* 主色调亮色- 用于按钮文字、边框等 */
+    --primary-dark-color: #000;                 /* 主色调暗色- 用于普通文字等 */
+    --accent-color: #a80000;                    /* 强调色- 用于失败提示等 */
+    --success-color: #00a800;                   /* 成功色- 用于成功提示等 */
+    
+    /* 文字颜色设置 */
+    --text-color: #000;                         /* 默认文字颜色 */
+    --text-highlight-color: #900;               /* 高亮文字颜色（如文本框内的文字） */
+    --background-color: #fff;                   /* 背景色（用于按钮、面板等） */
+    --border-color: #900;                       /* 边框颜色 */
+    --modal-header-color: #333;                 /* 模态框头部文字颜色 */
+    --modal-body-color: #666;                   /* 模态框主体文字颜色 */
+    
+    /* 版本信息背景颜色 */
+    --version-bg-color: rgba(153, 0, 0, 0.7);  /* 版本信息半透明深红色背景 */
+    
+    /* 尺寸设置 */
+    --border-radius: 4px;                       /* 圆角大小（像素） */
+    --border-width: 2px;                        /* 边框宽度（像素） */
+    --container-padding: 20px;                  /* 容器内边距（像素） */
+    --modal-padding: 30px;                      /* 模态框内边距 */
+    --modal-width: 400px;                       /* 模态框宽度 */
+    --modal-gap: 15px;                          /* 模态框按钮间距 */
+    
+    /* 按钮设置 */
+    --btn-width-normal: 200px;                  /* 普通按钮宽度（像素） */
+    --btn-width-next: 120px;                    /* 下一页按钮宽度（像素） */
+    
+    /* 全局字体设置 - 优先自定义字体，无则使用系统默认无衬线字体 */
+    --font-family-global: "GameGlobalFont", sans-serif;
+    --font-size-normal: 16px;                   /* 普通文字大小 */
+    --font-size-small: 14px;                    /* 小号文字大小 */
+    --font-size-medium: 18px;                   /* 中等文字大小 */
+    --font-size-large: 20px;                    /* 大号文字大小 */
+    --font-size-xlarge: 22px;                   /* 超大文字大小 */
+    --font-size-xxlarge: 24px;                  /* 特大文字大小 */
+    --font-size-title: 32px;                    /* 标题文字大小 */
+    
+    /* 阴影设置 */
+    --shadow-medium: 0 4px 8px rgba(0, 0, 0, 0.3);  /* 按钮阴影 */
+    --shadow-large: 0 10px 30px rgba(0, 0, 0, 0.5); /* 弹窗阴影 */
+    
+    /* 其他设置 */
+    --transition-duration: 0.3s;                /* 动画过渡时间（秒） */
+    --line-height-text-script: 2.0;             /* 文字脚本区域行高 */
+    --modal-z-index: 3000;                      /* 模态框层级 */
+    --modal-line-height: 1.5;                   /* 模态框行高 */
+}
+
+/* 全局元素应用字体 */
+* {
+    font-family: var(--font-family-global);
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
