@@ -1,11 +1,10 @@
-/* 全局重置 */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* 全局字体样式 - 仅在配置启用时应用 */
+/* 全局字体样式 */
 body {
     font-family: var(--font-family-global);
     overflow: hidden;
@@ -41,7 +40,7 @@ body {
 }
 
 .version-info {
-    background-color: var(--version-bg-color); /* 半透明深红色背景 */
+    background-color: var(--version-bg-color);
     color: var(--primary-light-color);
     padding: 6px 12px;
     border-radius: var(--border-radius);
@@ -64,7 +63,7 @@ body {
     text-align: center;
     box-shadow: var(--shadow-medium);
     position: relative;
-    top: 25%; /* 向下偏移50像素 */
+    top: 25%;
 }
 
 .startGameBtn:hover {
@@ -179,7 +178,6 @@ body {
     margin: 0 auto;
 }
 
-/* 保持原有的body定义，但确保字体设置符合配置 */
 body {
     overflow: hidden;
     height: 100vh;
@@ -396,12 +394,12 @@ body {
 }
 
 .win .end-content {
-    border: 4px solid var(--success-color); /* 胜利时绿色边框 */
+    border: 4px solid var(--success-color);
     background: linear-gradient(to bottom, #f0fff0, #e0ffe0);
 }
 
 .lose .end-content {
-    border: 4px solid var(--accent-color); /* 失败时红色边框 */
+    border: 4px solid var(--accent-color);
     background: linear-gradient(to bottom, #fff0f0, #ffe0e0);
 }
 
@@ -414,11 +412,11 @@ body {
 }
 
 .win .end-title {
-    color: var(--success-color); /* 胜利时绿色标题 */
+    color: var(--success-color); 
 }
 
 .lose .end-title {
-    color: var(--accent-color); /* 失败时红色标题 */
+    color: var(--accent-color);
 }
 
 .end-message {
@@ -431,9 +429,9 @@ body {
 
 .end-buttons {
     display: flex;
-    flex-direction: column; /* 修改为垂直布局 */
+    flex-direction: column;
     align-items: center;
-    gap: 15px; /* 添加间距 */
+    gap: 15px;
 }
 
 /* 重新开始按钮 */

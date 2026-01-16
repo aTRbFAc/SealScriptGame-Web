@@ -63,11 +63,11 @@ class SealScriptGame {
         console.log("游戏进度已清除");
     }
 
-    // 播放按钮点击音效
+   
     playButtonClickSound() {
         if (gameConfig.buttonClickSound) {
             const clickSound = new Audio(gameConfig.buttonClickSound);
-            clickSound.volume = this.seVolume; // 使用游戏音效的音量设置
+            clickSound.volume = this.seVolume;
             clickSound.play().catch(error => {
                 console.warn("按钮音效播放失败:", error);
             });
@@ -81,19 +81,12 @@ class SealScriptGame {
             return;
         }
 
-        // 更新页面内容
         document.getElementById(gameConfig.elementIds.sceneImage).src = currentData.image || "";
-        
-        // 停止之前的打字机效果（如果有）
         this.stopTypewriterEffect();
-        
-        // 停止当前播放的旁白（解决切换章节时上一章旁白继续播放的问题）
         if(this.narrationAudio) {
             this.narrationAudio.pause();
             this.narrationAudio = null;
         }
-        
-        // 使用打字机效果显示剧情文本
         this.typeWriterEffect(currentData.text);
 
         // 更新章节标题
@@ -120,7 +113,6 @@ class SealScriptGame {
 
         // 处理选项和按钮显示
         this.handleChoicesAndButtons(currentData);
-
         console.log("已渲染剧情：", currentData);
     }
 
@@ -135,14 +127,14 @@ class SealScriptGame {
 
     // 打字机效果
     typeWriterEffect(text) {
-        // 停止之前的打字机效果（如果有）
+        // 停止之前的打字机效果
         this.stopTypewriterEffect();
         
         // 标记正在打字
         this.isTyping = true;
         
         const scriptContentElement = document.getElementById(gameConfig.elementIds.scriptContent);
-        scriptContentElement.innerHTML = ''; // 清空现有内容
+        scriptContentElement.innerHTML = '';
         
         let i = 0;
         const speed = gameConfig.typeWriterSpeed; // 使用配置的速度
@@ -181,8 +173,8 @@ class SealScriptGame {
 
         // 创建新的音频对象
         this.bgmAudio = new Audio(audioPath);
-        this.bgmAudio.loop = true; // 循环播放
-        this.bgmAudio.volume = this.bgmVolume; // 应用音量设置
+        this.bgmAudio.loop = true;
+        this.bgmAudio.volume = this.bgmVolume;
         
         // 尝试播放音乐
         this.bgmAudio.play().catch(error => {
@@ -193,7 +185,7 @@ class SealScriptGame {
     // 播放音效
     playSoundEffect(audioPath) {
         const se = new Audio(audioPath);
-        se.volume = this.seVolume; // 应用音效音量设置
+        se.volume = this.seVolume;
         se.play().catch(error => {
             console.warn("音效播放失败:", error);
         });
@@ -209,7 +201,7 @@ class SealScriptGame {
 
         // 创建新的音频对象
         this.narrationAudio = new Audio(audioPath);
-        this.narrationAudio.volume = this.narrationVolume; // 应用旁白音量设置
+        this.narrationAudio.volume = this.narrationVolume;
         this.narrationAudio.play().catch(error => {
             console.warn("旁白播放失败:", error);
         });
@@ -220,11 +212,8 @@ class SealScriptGame {
         const nextPageBtn = document.getElementById(gameConfig.elementIds.nextPageBtn);
 
         if (data.hasChoices && data.choices && data.choices.length > 0) {
-            // 显示选项按钮，隐藏下一页按钮
             nextPageBtn.style.display = "none";
             buttonGroup.style.display = "flex";
-
-            // 清空现有选项按钮
             buttonGroup.innerHTML = "";
 
             // 创建选项按钮
@@ -234,14 +223,14 @@ class SealScriptGame {
                 choiceBtn.textContent = choice.text;
                 
                 choiceBtn.addEventListener("click", () => {
-                    this.playButtonClickSound(); // 播放按钮点击音效
+                    this.playButtonClickSound();
                     
                     if (choice.gameOver) {
                         // 如果选项直接触发游戏结束
                         this.triggerEnd(
                             choice.gameOver === "win", 
                             choice.gameOverMessage || null,
-                            choice.gameOverSound || null  // 传递结局音效
+                            choice.gameOverSound || null
                         );
                     } else if (choice.targetChapter) {
                         // 跳转到指定章节
@@ -252,7 +241,6 @@ class SealScriptGame {
                 buttonGroup.appendChild(choiceBtn);
             });
         } else {
-            // 显示下一页按钮，隐藏选项按钮组
             nextPageBtn.style.display = "block";
             buttonGroup.style.display = "none";
 
@@ -286,17 +274,15 @@ class SealScriptGame {
             nextPageBtn.replaceWith(nextPageBtn.cloneNode(true));
             const newNextPageBtn = document.getElementById(gameConfig.elementIds.nextPageBtn);
             newNextPageBtn.addEventListener("click", () => {
-                this.playButtonClickSound(); // 播放按钮点击音效
+                this.playButtonClickSound();
                 this.nextChapter();
             });
         }
 
         if (closeBtn) {
             closeBtn.addEventListener("click", () => {
-                this.playButtonClickSound(); // 播放按钮点击音效
-                // 保存游戏进度后再显示退出确认模态框
+                this.playButtonClickSound();
                 this.saveGameProgress();
-                // 显示退出确认模态框而不是直接退出
                 exitConfirmModal.style.display = "flex";
             });
         }
@@ -308,7 +294,7 @@ class SealScriptGame {
                 if(newBtn) {
                     newBtn.setAttribute('data-cloned', 'true');
                     newBtn.addEventListener("click", () => {
-                        this.playButtonClickSound(); // 播放按钮点击音效
+                        this.playButtonClickSound();
                         
                         // 显示设置界面
                         document.getElementById(gameConfig.elementIds.settingContainer).style.display = "flex";
@@ -335,7 +321,7 @@ class SealScriptGame {
             settingCloseBtn.replaceWith(settingCloseBtn.cloneNode(true));
             const newSettingCloseBtn = document.getElementById(gameConfig.elementIds.settingCloseBtn);
             newSettingCloseBtn.addEventListener("click", () => {
-                this.playButtonClickSound(); // 播放按钮点击音效
+                this.playButtonClickSound();
                 document.getElementById(gameConfig.elementIds.settingContainer).style.display = "none";
             });
         }
@@ -348,7 +334,7 @@ class SealScriptGame {
             restartBtn.replaceWith(restartBtn.cloneNode(true));
             const newRestartBtn = document.getElementById(gameConfig.elementIds.restartBtn);
             newRestartBtn.addEventListener("click", () => {
-                this.playButtonClickSound(); // 播放按钮点击音效
+                this.playButtonClickSound();
                 this.restartGame();
             });
         }
@@ -358,7 +344,7 @@ class SealScriptGame {
             backToMainBtn.replaceWith(backToMainBtn.cloneNode(true));
             const newBackToMainBtn = document.getElementById(gameConfig.elementIds.backToMainBtn);
             newBackToMainBtn.addEventListener("click", () => {
-                this.playButtonClickSound(); // 播放按钮点击音效
+                this.playButtonClickSound();
                 this.backToMainInterface();
             });
         }
@@ -366,17 +352,17 @@ class SealScriptGame {
         // 绑定退出确认模态框的确认按钮
         if(confirmExitBtn) {
             confirmExitBtn.addEventListener("click", () => {
-                this.playButtonClickSound(); // 播放按钮点击音效
-                this.backToMainInterface(); // 回到主界面
-                exitConfirmModal.style.display = "none"; // 隐藏模态框
+                this.playButtonClickSound();
+                this.backToMainInterface();
+                exitConfirmModal.style.display = "none";
             });
         }
         
         // 绑定退出确认模态框的取消按钮
         if(cancelExitBtn) {
             cancelExitBtn.addEventListener("click", () => {
-                this.playButtonClickSound(); // 播放按钮点击音效
-                exitConfirmModal.style.display = "none"; // 隐藏模态框
+                this.playButtonClickSound();
+                exitConfirmModal.style.display = "none";
             });
         }
         
@@ -384,7 +370,7 @@ class SealScriptGame {
         if(exitConfirmModal) {
             exitConfirmModal.addEventListener("click", (e) => {
                 if(e.target === exitConfirmModal) {
-                    exitConfirmModal.style.display = "none"; // 点击背景关闭模态框
+                    exitConfirmModal.style.display = "none";
                 }
             });
         }
@@ -410,8 +396,6 @@ class SealScriptGame {
                 if(this.bgmAudio) {
                     this.bgmAudio.volume = this.bgmVolume;
                 }
-                
-                // 存储到本地存储
                 localStorage.setItem(gameConfig.storageKeys.bgmVolume, volume);
             });
         }
@@ -469,13 +453,12 @@ class SealScriptGame {
         if(this.narrationAudio) {
             this.narrationAudio.pause();
         }
-        // 停止打字效果
         this.stopTypewriterEffect();
         
         // 隐藏游戏容器和结束容器
         document.getElementById(gameConfig.elementIds.appContainer).style.display = "none";
         document.getElementById(gameConfig.elementIds.endContainer).style.display = "none";
-        document.getElementById(gameConfig.elementIds.settingContainer).style.display = "none"; // 隐藏设置界面
+        document.getElementById(gameConfig.elementIds.settingContainer).style.display = "none";
         
         // 显示主界面
         document.getElementById(gameConfig.elementIds.mainInterface).style.display = "flex";
@@ -484,7 +467,6 @@ class SealScriptGame {
     // 下一章
     nextChapter() {
         const currentData = this.storyData.find(item => item.chapter === this.currentChapter);
-        // 停止打字效果
         this.stopTypewriterEffect();
         
         if (currentData && currentData.nextChapter) {
@@ -508,11 +490,8 @@ class SealScriptGame {
 
  // 跳转到指定章节
     goToChapter(chapterNumber) {
-        // 在切换章节前停止打字机效果
         this.stopTypewriterEffect();
-        
         this.currentChapter = chapterNumber;
-        // 进入新章节时自动保存游戏进度
         this.saveGameProgress();
         this.initPage(); // 重新初始化页面
         this.bindEvents(); // 重新绑定事件
@@ -532,7 +511,7 @@ class SealScriptGame {
         // 停止打字效果
         this.stopTypewriterEffect();
         
-        // 如果提供了结局音效，播放它
+        // 播放结局音效
         if(gameOverSound) {
             this.playSoundEffect(gameOverSound);
         }
@@ -543,7 +522,7 @@ class SealScriptGame {
         // 隐藏游戏容器
         document.getElementById(gameConfig.elementIds.appContainer).style.display = "none";
         
-        // 显示结束容器，并根据结果设置相应样式或内容
+        // 显示结束容器
         const endContainer = document.getElementById(gameConfig.elementIds.endContainer);
         endContainer.style.display = "flex";
         

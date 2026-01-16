@@ -25,7 +25,7 @@ const gameConfig = {
         defaultLoseMessage: "很遗憾，游戏失败了。", // 默认失败信息
     },
 
- // 本地存储键名
+    // 本地存储键名
     storageKeys: {
         bgmVolume: 'bgmVolume',
         seVolume: 'seVolume',

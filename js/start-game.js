@@ -25,20 +25,18 @@ class StartGame {
         const startBtn = document.getElementById("startGameBtn"); 
         if (startBtn) {
             startBtn.addEventListener("click", () => {
-                this.playButtonClickSound(); // 播放按钮点击音效
+                this.playButtonClickSound();
                 this.checkSavedProgress(); // 检查是否有存档
             });
         }
     }
 
-    // 检查是否有存档
+    // 检查存档
     checkSavedProgress() {
         const savedProgress = SealScriptGame.loadGameProgress();
         if (savedProgress) {
-            // 如果有存档，显示继续游戏确认模态框
             this.showContinueGameModal();
         } else {
-            // 如果没有存档，直接开始新游戏
             this.startGame();
         }
     }
@@ -48,7 +46,7 @@ class StartGame {
         const modal = document.getElementById(gameConfig.elementIds.continueGameModal);
         const continueBtn = document.getElementById(gameConfig.elementIds.continueGameBtn);
         const newGameBtn = document.getElementById(gameConfig.elementIds.newGameBtn);
-        const cancelBtn = document.createElement('div'); // 创建取消按钮
+        const cancelBtn = document.createElement('div');
         cancelBtn.className = 'game-btn';
         cancelBtn.textContent = '取消';
         cancelBtn.addEventListener('click', () => {
@@ -76,7 +74,7 @@ class StartGame {
         // 绑定模态框背景点击事件（点击背景关闭模态框）
         modal.addEventListener('click', (e) => {
             if (e.target === modal) {
-                modal.style.display = 'none'; // 点击背景关闭模态框
+                modal.style.display = 'none';
             }
         });
     }
@@ -87,21 +85,17 @@ class StartGame {
         if (savedProgress) {
             this.hideMainInterface();
             document.getElementById(gameConfig.elementIds.appContainer).style.display = "flex"; // 显示游戏容器
-            
-            // 启动游戏逻辑，传入存档数据
             new SealScriptGame(savedProgress);
         } else {
-            // 如果存档不存在，开始新游戏
             this.startGame();
         }
     }
 
-    // 播放按钮点击音效
     playButtonClickSound() {
         if (gameConfig.buttonClickSound) {
             const seVolume = parseInt(localStorage.getItem(gameConfig.storageKeys.seVolume)) / 100 || gameConfig.defaultSeVolume / 100;
             const clickSound = new Audio(gameConfig.buttonClickSound);
-            clickSound.volume = seVolume; // 使用游戏音效的音量设置
+            clickSound.volume = seVolume;
             clickSound.play().catch(error => {
                 console.warn("按钮音效播放失败:", error);
             });
@@ -114,7 +108,7 @@ class StartGame {
         if (settingsBtn) {
             settingsBtn.forEach(btn => {
                 btn.addEventListener("click", () => {
-                    this.playButtonClickSound(); // 播放按钮点击音效
+                    this.playButtonClickSound();
                     this.showSettings();
                 });
             });
@@ -150,7 +144,7 @@ class StartGame {
         const settingCloseBtn = document.getElementById(gameConfig.elementIds.settingCloseBtn);
         if (settingCloseBtn) {
             settingCloseBtn.addEventListener("click", () => {
-                this.playButtonClickSound(); // 播放按钮点击音效
+                this.playButtonClickSound();
                 document.getElementById(gameConfig.elementIds.settingContainer).style.display = "none";
             });
         }
@@ -198,10 +192,10 @@ class StartGame {
     }
 
     startGame() {
-        // 开始游戏 - 清除旧存档
+        // 开始游戏
         SealScriptGame.clearGameProgress();
         this.hideMainInterface();
-        document.getElementById(gameConfig.elementIds.appContainer).style.display = "flex"; // 显示游戏容器
+        document.getElementById(gameConfig.elementIds.appContainer).style.display = "flex";
         
         // 启动游戏逻辑
         new SealScriptGame();
