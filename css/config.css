@@ -51,8 +51,8 @@
     --modal-gap: 15px;                          /* 模态框按钮间距 */
     
     /* 按钮设置 */
-    --btn-width-normal: 200px;                  /* 普通按钮宽度（像素） */
-    --btn-width-next: 120px;                    /* 下一页按钮宽度（像素） */
+    --btn-width-normal: 45%;                  /* 普通按钮宽度（像素） */
+    --btn-width-next: 30%;                    /* 下一页按钮宽度（像素） */
     
     /* 全局字体设置 - 优先自定义字体，无则使用系统默认无衬线字体 */
     --font-family-global: "GameGlobalFont", sans-serif;
