@@ -156,5 +156,5 @@ startGame() - 开始游戏
 如有问题或建议，请联系项目维护者。
 本项目采用 **MIT 许可证** 开源。
 详细内容请查看 [LICENSE](LICENSE) 文件。
-GitHub 仓库：[SealScriptGame_Web](https://github.com/)
+GitHub 仓库：[SealScriptGame-Web](https://github.com/aTRbFAc/SealScriptGame-Web)
 工作室官网：[文幻工作室](https://atrbfac.top)
