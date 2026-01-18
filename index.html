@@ -21,6 +21,13 @@
     <div class="startGameBtn" id="startGameBtn">开始游戏</div>
 </div>
 
+<!-- 开场视频容器 -->
+<div id="opening-video-container" class="opening-video-container" style="display: none;">
+    <video id="opening-video" class="opening-video" playsinline>
+        您的浏览器不支持视频播放。
+    </video>
+    <button id="skip-opening-video-btn" class="skip-opening-video-btn">跳过</button>
+</div>
     <!-- 游戏主容器 -->
     <div id="app-container">
         <div class="game-main">
@@ -34,8 +41,8 @@
             <!-- 图片+文字内容区域 -->
             <div class="game-wrap">
                 <div class="game-container">
-                    <div class="image-seal">
-                        <img id="sceneImage" src="" alt="场景图">
+                    <div class="image-seal" id="sceneContainer">
+                        <img id="sceneImage" src="" alt="场景图" style="display: none;">
                     </div>
                     <div class="text-script" id="scriptContent"></div>
                 </div>

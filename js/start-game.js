@@ -191,13 +191,86 @@ class StartGame {
         }
     }
 
-    startGame() {
+startGame() {
         // 开始游戏
         SealScriptGame.clearGameProgress();
         this.hideMainInterface();
-        document.getElementById(gameConfig.elementIds.appContainer).style.display = "flex";
         
-        // 启动游戏逻辑
+        // 如果启用了开场视频，则播放开场视频后再进入游戏
+        if (gameConfig.openingVideo.enabled) {
+            this.playOpeningVideo();
+        } else {
+            // 直接开始游戏
+            document.getElementById(gameConfig.elementIds.appContainer).style.display = "flex";
+            new SealScriptGame();
+        }
+    }
+
+    playOpeningVideo() {
+        const videoContainer = document.getElementById(gameConfig.elementIds.openingVideoContainer);
+        const videoElement = document.getElementById(gameConfig.elementIds.openingVideo);
+        const skipButton = document.getElementById(gameConfig.elementIds.skipOpeningVideoBtn);
+        
+        // 设置视频源和属性
+        videoElement.src = gameConfig.openingVideo.path;
+        videoElement.muted = gameConfig.openingVideo.muted;
+        videoElement.loop = gameConfig.openingVideo.loop;
+        
+        // 显示视频容器
+        videoContainer.style.display = "flex";
+        videoElement.style.display = "block";
+        
+        // 如果配置了显示跳过按钮
+        if (gameConfig.openingVideo.showSkipButton) {
+            skipButton.style.display = "block";
+        } else {
+            skipButton.style.display = "none";
+        }
+
+        // 绑定视频结束事件
+        videoElement.onended = () => {
+            this.finishOpeningVideo();
+        };
+
+        // 绑定跳过按钮事件
+        if (skipButton) {
+            skipButton.onclick = () => {
+                this.finishOpeningVideo();
+            };
+        }
+
+        // 如果设置了跳过按钮延迟显示时间
+        if (gameConfig.openingVideo.skipDelay > 0) {
+            skipButton.style.display = "none";
+            setTimeout(() => {
+                if (videoElement.currentTime < videoElement.duration || !videoElement.ended) {
+                    skipButton.style.display = "block";
+                }
+            }, gameConfig.openingVideo.skipDelay);
+        }
+
+        // 播放视频
+        if (gameConfig.openingVideo.autoplay) {
+            videoElement.play().catch(error => {
+                console.warn("开场视频自动播放失败，可能需要用户交互:", error);
+                // 如果自动播放失败，仍然显示跳过按钮
+                if (gameConfig.openingVideo.showSkipButton) {
+                    skipButton.style.display = "block";
+                }
+            });
+        } else {
+            // 如果不自动播放，显示播放按钮或提示
+            if (gameConfig.openingVideo.showSkipButton) {
+                skipButton.style.display = "block";
+            }
+        }
+    }
+
+    finishOpeningVideo() {
+        // 隐藏视频容器
+        document.getElementById(gameConfig.elementIds.openingVideoContainer).style.display = "none";
+        // 显示游戏容器并开始游戏
+        document.getElementById(gameConfig.elementIds.appContainer).style.display = "flex";
         new SealScriptGame();
     }
 }

@@ -3,18 +3,19 @@ class SealScriptGame {
     constructor(savedProgress = null) {
         if (savedProgress) {
             // 如果有存档，加载存档数据
-            this.currentChapter = savedProgress.currentChapter;
+            this.currentPageIndex = savedProgress.currentPageIndex;
             this.storyData = savedProgress.storyData || window.storyData;
             this.bgmVolume = savedProgress.bgmVolume;
             this.seVolume = savedProgress.seVolume;
             this.narrationVolume = savedProgress.narrationVolume;
         } else {
-            this.currentChapter = 1;
+            this.currentPageIndex = 0; // 从第一页开始
             this.storyData = window.storyData;
         }
         this.bgmAudio = null; // 背景音乐音频对象
         this.seAudio = null; // 音效音频对象
         this.narrationAudio = null; // 旁白音频对象
+        this.videoElement = null; // 视频元素
         this.typewriterTimeoutId = null; // 添加打字机效果的超时ID
         this.isTyping = false; // 添加打字状态标识
         
@@ -32,7 +33,7 @@ class SealScriptGame {
     // 保存游戏进度
     saveGameProgress() {
         const progressData = {
-            currentChapter: this.currentChapter,
+            currentPageIndex: this.currentPageIndex,
             storyData: this.storyData, // 注意：这可能包含大量数据，根据需要可以只保存关键数据
             bgmVolume: this.bgmVolume,
             seVolume: this.seVolume,
@@ -75,13 +76,15 @@ class SealScriptGame {
     }
 
     initPage() {
-        const currentData = this.storyData.find(item => item.chapter === this.currentChapter);
+        const currentData = this.storyData[this.currentPageIndex];
         if (!currentData) {
             alert("无任何剧情数据！");
             return;
         }
 
-        document.getElementById(gameConfig.elementIds.sceneImage).src = currentData.image || "";
+        // 显示图片或视频
+        this.showSceneMedia(currentData);
+
         this.stopTypewriterEffect();
         if(this.narrationAudio) {
             this.narrationAudio.pause();
@@ -91,9 +94,9 @@ class SealScriptGame {
 
         // 更新章节标题
         if(currentData.gameOver) {
-            document.getElementById(gameConfig.elementIds.chapterTitle).textContent = `第${this.currentChapter}章`;
+            document.getElementById(gameConfig.elementIds.chapterTitle).textContent = `第${this.currentPageIndex + 1}章`;
         } else {
-            document.getElementById(gameConfig.elementIds.chapterTitle).textContent = `第${currentData.chapter}章`;
+            document.getElementById(gameConfig.elementIds.chapterTitle).textContent = currentData.chapterTitle || `第${currentData.pageIndex + 1}章`;
         }
 
         // 更换背景
@@ -114,6 +117,92 @@ class SealScriptGame {
         // 处理选项和按钮显示
         this.handleChoicesAndButtons(currentData);
         console.log("已渲染剧情：", currentData);
+    }
+
+    // 显示场景媒体（图片或视频）
+    showSceneMedia(data) {
+        const sceneContainer = document.getElementById(gameConfig.elementIds.sceneContainer);
+        const sceneImage = document.getElementById(gameConfig.elementIds.sceneImage);
+        
+        // 清空场景容器
+        sceneContainer.innerHTML = '';
+        
+        if (data.video) {
+            // 如果有视频，则显示视频
+            this.createVideoElement(data);
+        } else if (data.image) {
+            // 如果没有视频但有图片，则显示图片
+            sceneImage.src = data.image;
+            sceneImage.style.display = 'block';
+            sceneContainer.appendChild(sceneImage);
+        } else {
+            // 如果既没有视频也没有图片，则隐藏场景容器
+            sceneImage.style.display = 'none';
+        }
+    }
+
+    // 创建视频元素
+    createVideoElement(data) {
+        const sceneContainer = document.getElementById(gameConfig.elementIds.sceneContainer);
+        const sceneImage = document.getElementById(gameConfig.elementIds.sceneImage);
+        
+        // 移除旧的视频元素（如果有）
+        if (this.videoElement) {
+            this.videoElement.pause();
+            sceneContainer.removeChild(this.videoElement);
+        }
+
+        // 创建新的视频元素
+        this.videoElement = document.createElement('video');
+        this.videoElement.src = data.video;
+        this.videoElement.autoplay = data.videoAutoplay !== undefined ? data.videoAutoplay : true;
+        this.videoElement.loop = data.videoLoop !== undefined ? data.videoLoop : false;
+        this.videoElement.controls = false;
+        this.videoElement.muted = data.videoMuted !== undefined ? data.videoMuted : false;
+        this.videoElement.style.width = '100%';
+        this.videoElement.style.height = 'auto';
+        this.videoElement.style.maxHeight = '50vh';
+        this.videoElement.setAttribute('playsinline', '');
+        this.videoElement.setAttribute('webkit-playsinline', '');
+        this.videoElement.setAttribute('preload', 'metadata');
+
+        // 添加事件监听器，处理视频播放完成后的操作
+        this.videoElement.onended = () => {
+            console.log('视频播放完成');
+            // 可以在这里添加视频播放完成后要执行的操作
+        };
+
+        // 添加错误处理
+        this.videoElement.onerror = (e) => {
+            console.error('视频加载或播放失败:', e);
+            // 如果视频播放失败，尝试显示替代内容或图片
+            if (data.image) {
+                sceneImage.src = data.image;
+                sceneImage.style.display = 'block';
+                sceneContainer.appendChild(sceneImage);
+            }
+        };
+
+        // 确保视频元数据加载完成后才播放
+        this.videoElement.onloadedmetadata = () => {
+            console.log('视频元数据加载完成，准备播放');
+            if (data.videoAutoplay !== false) {
+                // 在一些浏览器中，需要先暂停再播放才能正确播放
+                this.videoElement.play().catch(error => {
+                    console.warn('视频自动播放失败，可能需要用户交互:', error);
+                    // 如果自动播放失败，显示一个播放按钮让用户手动播放
+                    this.videoElement.style.display = 'none';
+                    if (data.image) {
+                        sceneImage.src = data.image;
+                        sceneImage.style.display = 'block';
+                        sceneContainer.appendChild(sceneImage);
+                    }
+                });
+            }
+        };
+
+        // 将视频元素添加到场景容器
+        sceneContainer.appendChild(this.videoElement);
     }
 
     // 停止打字机效果
@@ -232,9 +321,9 @@ class SealScriptGame {
                             choice.gameOverMessage || null,
                             choice.gameOverSound || null
                         );
-                    } else if (choice.targetChapter) {
-                        // 跳转到指定章节
-                        this.goToChapter(choice.targetChapter);
+                    } else if (choice.targetPageIndex !== undefined) {
+                        // 跳转到指定页数
+                        this.goToPage(choice.targetPageIndex);
                     }
                 });
 
@@ -275,7 +364,7 @@ class SealScriptGame {
             const newNextPageBtn = document.getElementById(gameConfig.elementIds.nextPageBtn);
             newNextPageBtn.addEventListener("click", () => {
                 this.playButtonClickSound();
-                this.nextChapter();
+                this.nextPage();
             });
         }
 
@@ -428,7 +517,7 @@ class SealScriptGame {
     // 重启游戏
     restartGame() {
         // 重置游戏状态
-        this.currentChapter = 1;
+        this.currentPageIndex = 0; // 从第一页开始
         
         // 重置容器显示状态
         document.getElementById(gameConfig.elementIds.appContainer).style.display = "flex";
@@ -453,6 +542,10 @@ class SealScriptGame {
         if(this.narrationAudio) {
             this.narrationAudio.pause();
         }
+        // 停止视频
+        if(this.videoElement) {
+            this.videoElement.pause();
+        }
         this.stopTypewriterEffect();
         
         // 隐藏游戏容器和结束容器
@@ -464,23 +557,23 @@ class SealScriptGame {
         document.getElementById(gameConfig.elementIds.mainInterface).style.display = "flex";
     }
 
-    // 下一章
-    nextChapter() {
-        const currentData = this.storyData.find(item => item.chapter === this.currentChapter);
+    // 下一页
+    nextPage() {
+        const currentData = this.storyData[this.currentPageIndex];
         this.stopTypewriterEffect();
         
-        if (currentData && currentData.nextChapter) {
-            // 如果当前数据指定了下一章，则跳转到指定章节
-            this.goToChapter(currentData.nextChapter);
+        if (currentData && currentData.nextpageIndex !== undefined) {
+            // 如果当前数据指定了下一页，则跳转到指定页
+            this.goToPage(currentData.nextpageIndex);
         } else {
-            // 否则按顺序查找下一章
-            const nextChapterNum = this.currentChapter + 1;
-            const nextData = this.storyData.find(item => item.chapter === nextChapterNum);
+            // 否则按顺序查找下一页
+            const nextPageIndex = this.currentPageIndex + 1;
+            const nextData = this.storyData[nextPageIndex];
             
             if (nextData) {
-                this.goToChapter(nextData.chapter);
+                this.goToPage(nextData.pageIndex);
             } else {
-                // 没有下一章，触发默认结局（不推荐使用，请手动配置完整的游戏结束逻辑）
+                // 没有下一页，触发默认结局（不推荐使用，请手动配置完整的游戏结束逻辑）
                 if(gameConfig.defaultEnd.triggerOnNoNextChapter) {
                     this.triggerEnd(gameConfig.defaultEnd.defaultResult); // 使用配置中的默认结果
                 }
@@ -488,10 +581,14 @@ class SealScriptGame {
         }
     }
 
- // 跳转到指定章节
-    goToChapter(chapterNumber) {
+ // 跳转到指定页
+    goToPage(pageIndex) {
+        // 停止视频播放（如果有的话）
+        if(this.videoElement) {
+            this.videoElement.pause();
+        }
         this.stopTypewriterEffect();
-        this.currentChapter = chapterNumber;
+        this.currentPageIndex = pageIndex;
         this.saveGameProgress();
         this.initPage(); // 重新初始化页面
         this.bindEvents(); // 重新绑定事件
@@ -507,6 +604,10 @@ class SealScriptGame {
         // 停止旁白
         if(this.narrationAudio) {
             this.narrationAudio.pause();
+        }
+        // 停止视频
+        if(this.videoElement) {
+            this.videoElement.pause();
         }
         // 停止打字效果
         this.stopTypewriterEffect();

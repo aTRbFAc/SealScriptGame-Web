@@ -3,6 +3,17 @@ const gameConfig = {
     // 打字机效果配置
     typeWriterSpeed: 15, // 打字速度，单位毫秒
     
+    // 开场视频配置(仅限新游戏生效)
+    openingVideo: {
+        enabled: false,                  // 是否启用开场视频
+        path: "../videos/video.mp4",     // 开场视频路径
+        autoplay: true,                  // 是否自动播放
+        loop: false,                     // 是否循环播放
+        muted: false,                    // 是否静音播放
+        showSkipButton: true,            // 是否显示跳过按钮
+        skipDelay: 5000,                 // 跳过按钮延迟显示时间（毫秒）
+    },
+
     // 默认音量
     defaultBgmVolume: 100,       // 背景音乐
     defaultSeVolume: 100,        // 游戏音效
@@ -40,6 +51,7 @@ const gameConfig = {
         endContainer: 'end-container',
         settingContainer: 'setting-container',
         sceneImage: 'sceneImage',
+        sceneContainer: 'sceneContainer', // 添加场景容器ID
         scriptContent: 'scriptContent',
         chapterTitle: 'chapterTitle',
         buttonGroup: '.button-group',
@@ -62,7 +74,10 @@ const gameConfig = {
         cancelExitBtn: 'cancel-exit-btn',
         continueGameModal: 'continue-game-modal',  // 添加继续游戏模态框相关ID
         continueGameBtn: 'continue-game-btn',
-        newGameBtn: 'new-game-btn'
+        newGameBtn: 'new-game-btn',
+        openingVideoContainer: 'opening-video-container',  // 开场视频容器
+        openingVideo: 'opening-video',                      // 开场视频元素
+        skipOpeningVideoBtn: 'skip-opening-video-btn'       // 跳过开场视频按钮
     }
 };
 
