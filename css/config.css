@@ -52,7 +52,11 @@
     
     /* 按钮设置 */
     --btn-width-normal: 45%;                  /* 普通按钮宽度（像素） */
+<<<<<<< HEAD
     --btn-width-next: 120px;                  /* 下一页按钮宽度（像素） */
+=======
+    --btn-width-next: 120px;                    /* 下一页按钮宽度（像素） */
+>>>>>>> 8f3ee3410718ec82d3fa2281d387da203252f20e
     
     /* 全局字体设置 - 优先自定义字体，无则使用系统默认无衬线字体 */
     --font-family-global: "GameGlobalFont", sans-serif;
