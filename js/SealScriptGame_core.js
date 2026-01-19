@@ -1,3 +1,29 @@
+const root = document.documentElement;
+const gameWrap = document.querySelector('.game-wrap');
+const gameContainer = document.querySelector('.game-container');
+const textScript = document.querySelector('.text-script');
+
+function calculateScaleAndHeight() {
+  if (!gameWrap || !gameContainer || !textScript) return;
+  // 强制触发重排，获取准确的DOM尺寸
+  gameContainer.offsetHeight; 
+  const baseWidth = parseFloat(getComputedStyle(root).getPropertyValue('--game-container-base-width'));
+  const wrapWidth = gameWrap.clientWidth;
+  const scaleRatio = Math.min(wrapWidth / baseWidth, 1);
+  root.style.setProperty('--game-container-scale-ratio', scaleRatio);
+  const scaledContainerHeight = gameContainer.offsetHeight * scaleRatio;
+  const availableHeight = gameWrap.clientHeight - scaledContainerHeight;
+  root.style.setProperty('--text-script-flex', availableHeight > 20 ? '4' : '2');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  // 延迟20ms，等CSS样式完全应用
+  setTimeout(calculateScaleAndHeight, 20);
+});
+
+window.addEventListener('resize', calculateScaleAndHeight);
+document.querySelector('#sceneImage')?.addEventListener('load', calculateScaleAndHeight);
+
 // 游戏主函数
 class SealScriptGame {
     constructor(savedProgress = null) {
@@ -166,7 +192,6 @@ class SealScriptGame {
         this.videoElement.setAttribute('webkit-playsinline', '');
         this.videoElement.setAttribute('preload', 'metadata');
 
-        // 添加事件监听器，处理视频播放完成后的操作
         this.videoElement.onended = () => {
             console.log('视频播放完成');
             // 可以在这里添加视频播放完成后要执行的操作
@@ -187,10 +212,8 @@ class SealScriptGame {
         this.videoElement.onloadedmetadata = () => {
             console.log('视频元数据加载完成，准备播放');
             if (data.videoAutoplay !== false) {
-                // 在一些浏览器中，需要先暂停再播放才能正确播放
                 this.videoElement.play().catch(error => {
                     console.warn('视频自动播放失败，可能需要用户交互:', error);
-                    // 如果自动播放失败，显示一个播放按钮让用户手动播放
                     this.videoElement.style.display = 'none';
                     if (data.image) {
                         sceneImage.src = data.image;
@@ -575,7 +598,7 @@ class SealScriptGame {
             } else {
                 // 没有下一页，触发默认结局（不推荐使用，请手动配置完整的游戏结束逻辑）
                 if(gameConfig.defaultEnd.triggerOnNoNextChapter) {
-                    this.triggerEnd(gameConfig.defaultEnd.defaultResult); // 使用配置中的默认结果
+                    this.triggerEnd(gameConfig.defaultEnd.defaultResult);
                 }
             }
         }

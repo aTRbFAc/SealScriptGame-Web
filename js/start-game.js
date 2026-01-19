@@ -192,6 +192,7 @@ class StartGame {
     }
 
 startGame() {
+    
         // 开始游戏
         SealScriptGame.clearGameProgress();
         this.hideMainInterface();

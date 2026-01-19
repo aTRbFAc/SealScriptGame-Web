@@ -43,20 +43,18 @@
     --version-bg-color: rgba(153, 0, 0, 0.7);  /* 版本信息半透明深红色背景 */
     
     /* 尺寸设置 */
-    --border-radius: 4px;                       /* 圆角大小（像素） */
-    --border-width: 2px;                        /* 边框宽度（像素） */
-    --container-padding: 20px;                  /* 容器内边距（像素） */
+    --border-radius: 4px;                       /* 圆角大小 */
+    --border-width: 2px;                        /* 边框宽度 */
+    --container-padding: 20px;                  /* 容器内边距 */
     --modal-padding: 30px;                      /* 模态框内边距 */
     --modal-width: 400px;                       /* 模态框宽度 */
     --modal-gap: 15px;                          /* 模态框按钮间距 */
+    --game-container-base-width: 300px;         /* 基础宽度 */
+    --game-container-scale-ratio: 1;            /* JS 控制缩放比例 */
     
     /* 按钮设置 */
-    --btn-width-normal: 45%;                  /* 普通按钮宽度（像素） */
-<<<<<<< HEAD
-    --btn-width-next: 120px;                  /* 下一页按钮宽度（像素） */
-=======
-    --btn-width-next: 120px;                    /* 下一页按钮宽度（像素） */
->>>>>>> 8f3ee3410718ec82d3fa2281d387da203252f20e
+    --btn-width-normal: 45%;                  /* 普通按钮宽度 */
+    --btn-width-next: 120px;                  /* 下一页按钮宽度 */
     
     /* 全局字体设置 - 优先自定义字体，无则使用系统默认无衬线字体 */
     --font-family-global: "GameGlobalFont", sans-serif;
@@ -74,7 +72,7 @@
     
     /* 其他设置 */
     --transition-duration: 0.3s;                /* 动画过渡时间（秒） */
-    --line-height-text-script: 2.0;             /* 文字脚本区域行高 */
+    --line-height-text-script: 1.5;             /* 文字脚本区域行高 */
     --modal-z-index: 3000;                      /* 模态框层级 */
     --modal-line-height: 1.5;                   /* 模态框行高 */
 }

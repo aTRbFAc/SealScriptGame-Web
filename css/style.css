@@ -271,62 +271,66 @@ body {
 }
 
 .game-wrap {
-    flex: 1;
-    overflow: hidden;
-    padding: var(--container-padding);
+  flex: 1;
+  overflow: hidden;
+  padding: var(--container-padding);
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .game-container {
-    width: 100%;
-    max-width: 350px;
-    height: 100%;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+  width: var(--game-container-base-width);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  transform: scale(var(--game-container-scale-ratio));
+  transform-origin: center center;
+  max-width: 100%;
+  max-height: 100%;
 }
 
-/* 自适应图片框 */
+/* 图片框和文字框 */
 .image-seal {
-    width: 100%;
-    max-width: 500px;
-    margin: 0 auto;
-    border: 8px solid var(--border-color);
-    border-radius: var(--border-radius);
-    overflow: hidden;
-    flex-shrink: 0;
-    background-color: #333;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  width: 100%;
+  border: 8px solid var(--border-color);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  flex-shrink: 0;
+  background-color: #333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .image-seal img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
-/* 自适应文字框 - 应用文字框专用字体 */
+/* 文字框 */
 .text-script {
-    width: 100%;
-    max-width: 500px;
-    margin: 0 auto;
-    background-color: var(--background-color);
-    color: var(--text-highlight-color);
-    padding: 15px 25px;
-    border: 4px solid var(--border-color);
-    border-radius: var(--border-radius);
-    font-size: var(--font-size-xlarge);
-    line-height: var(--line-height-text-script);
-    flex: 1;
-    min-height: 200px;
-    overflow-y: auto;
-    scrollbar-width: thin;
-    scrollbar-color: var(--border-color) var(--background-color);
-    font-family: var(--font-family-text-script);
+  width: 100%;
+  background-color: var(--background-color);
+  color: var(--text-highlight-color);
+  padding: 15px 25px;
+  border: 4px solid var(--border-color);
+  border-radius: var(--border-radius);
+  font-size: var(--font-size-xlarge);
+  line-height: var(--line-height-text-script);
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-color) var(--background-color);
+  font-family: var(--font-family-text-script);
 }
+
 
 .text-script::-webkit-scrollbar {
     width: 10px;
@@ -610,9 +614,7 @@ body {
     }
 }
 
-/* 移动端适配 */
 @media (max-width: 360px) {    
-    /* 优化小屏幕标题栏 */
     .header {
         height: 50px;
         padding: 5px 10px;
