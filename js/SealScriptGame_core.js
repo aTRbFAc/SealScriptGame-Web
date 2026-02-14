@@ -620,7 +620,6 @@ class SealScriptGame {
         this.currentPageIndex = pageIndex;
         this.saveGameProgress();
         this.initPage(); // 重新初始化页面
-        this.bindEvents(); // 重新绑定事件
     }
 
     // 触发游戏结束
