@@ -2,6 +2,7 @@
 class StartGame {
     constructor() {
         // 初始状态
+        this.seAudio = null;
         this.showMainInterface();
         this.bindStartEvent();
         this.bindSettingsEvent();
@@ -106,10 +107,20 @@ class StartGame {
 
     playButtonClickSound() {
         if (gameConfig.buttonClickSound) {
+            // 获取存储的音量值
             const seVolume = parseInt(localStorage.getItem(gameConfig.storageKeys.seVolume)) / 100 || gameConfig.defaultSeVolume / 100;
-            const clickSound = new Audio(gameConfig.buttonClickSound);
-            clickSound.volume = seVolume;
-            clickSound.play().catch(error => {
+            
+            // 停止之前的音效
+            if(this.seAudio) {
+                this.seAudio.pause();
+            }
+            
+            // 创建新的音频实例
+            this.seAudio = new Audio(gameConfig.buttonClickSound);
+            this.seAudio.volume = seVolume;
+            
+            // 播放音效
+            this.seAudio.play().catch(error => {
                 console.warn("按钮音效播放失败:", error);
             });
         }
