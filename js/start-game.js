@@ -22,7 +22,20 @@ class StartGame {
 
     bindStartEvent() {
         // 绑定开始游戏按钮事件
-        const startBtn = document.getElementById("startGameBtn"); 
+        const settingsBtn = document.querySelectorAll(`#${gameConfig.elementIds.settingsBtn}`);
+        if (settingsBtn) {
+            settingsBtn.forEach(btn => {
+                const newBtn = btn.cloneNode(true);
+                btn.parentNode.replaceChild(newBtn, btn);
+
+                const clonedBtn = document.getElementById(gameConfig.elementIds.settingsBtn);
+                clonedBtn.addEventListener("click", () => {
+                    this.playButtonClickSound();
+                    this.showSettings();
+                });
+            });
+        }
+        const startBtn = document.getElementById("startGameBtn");
         if (startBtn) {
             startBtn.addEventListener("click", () => {
                 this.playButtonClickSound();
@@ -234,17 +247,17 @@ startGame() {
         };
 
         // 绑定跳过按钮事件
-        if (skipButton) {
+        if (skipButton && gameConfig.openingVideo.showSkipButton) {
             skipButton.onclick = () => {
                 this.finishOpeningVideo();
             };
         }
 
         // 如果设置了跳过按钮延迟显示时间
-        if (gameConfig.openingVideo.skipDelay > 0) {
+        if (gameConfig.openingVideo.skipDelay > 0 && gameConfig.openingVideo.showSkipButton) {
             skipButton.style.display = "none";
             setTimeout(() => {
-                if (videoElement.currentTime < videoElement.duration || !videoElement.ended) {
+                if ((videoElement.currentTime < videoElement.duration || !videoElement.ended) && gameConfig.openingVideo.showSkipButton) {
                     skipButton.style.display = "block";
                 }
             }, gameConfig.openingVideo.skipDelay);

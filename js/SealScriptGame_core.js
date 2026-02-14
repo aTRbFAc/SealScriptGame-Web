@@ -296,9 +296,15 @@ class SealScriptGame {
 
     // 播放音效
     playSoundEffect(audioPath) {
-        const se = new Audio(audioPath);
-        se.volume = this.seVolume;
-        se.play().catch(error => {
+        // 停止之前播放的音效
+        if(this.seAudio) {
+            this.seAudio.pause();
+            this.seAudio = null;
+        }
+        
+        this.seAudio = new Audio(audioPath);
+        this.seAudio.volume = this.seVolume;
+        this.seAudio.play().catch(error => {
             console.warn("音效播放失败:", error);
         });
     }
